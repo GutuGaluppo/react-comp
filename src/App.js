@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import Radium, { StyleRoot } from 'radium'; // alows us to use inlineStyles with "sudo selectors"(:hover, :before...) and jQuery (npm install --save radium)
 
 class App extends Component {
   state = {
@@ -71,11 +70,6 @@ class App extends Component {
       borderRadius: '7px',
       padding: '8px',
       cursor: 'pointer',
-      //using Radium to add a :hover inlineStyle bellow
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black',
-      }
     };
 
     let persons = null;
@@ -95,10 +89,6 @@ class App extends Component {
 
       style.backgroundColor = '#C70039';
       style.color = 'whitesmoke';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black',
-      }
     }
 
     // const classStyle = ['red', 'bold'].join(' ');
@@ -111,17 +101,15 @@ class App extends Component {
     }
 
     return (
-      <StyleRoot>
+
         <div className="App">
           <h1>React App</h1>
           <p className={classStyle.join(' ')}>This is working</p>
           <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
           {persons}
         </div>
-      </StyleRoot>
     );
   }
 }
 
-export default Radium(App);
-// export default App;
+export default App;
