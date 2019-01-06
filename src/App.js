@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Radium, { StyleRoot } from 'radium'; // alows us to use inlineStyles with "sudo selectors"(:hover, :before...) and jQuery (npm install --save radium)
 
 class App extends Component {
   state = {
@@ -62,13 +63,19 @@ class App extends Component {
 
     // CSS inline to apply only for an expecific element
     const style = {
-      backgroundColor: 'aqua',
+      backgroundColor: 'lime',
+      color: 'teal',
       font: 'inherit',
       boxShadow: '0 2px 3px silver',
-      border: '1px solid blue',
+      border: '1px solid transparent',
       borderRadius: '7px',
       padding: '8px',
       cursor: 'pointer',
+      //using Radium to add a :hover inlineStyle bellow
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black',
+      }
     };
 
     let persons = null;
@@ -82,20 +89,39 @@ class App extends Component {
               name={person.name}
               age={person.age}
               key={person.id}
-              changed={(event) => this.nameChangedHandler(event, person.id)}/>
+              changed={(event) => this.nameChangedHandler(event, person.id)} />
           })}
         </div>);
+
+      style.backgroundColor = '#C70039';
+      style.color = 'whitesmoke';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black',
+      }
+    }
+
+    // const classStyle = ['red', 'bold'].join(' ');
+    const classStyle = [];
+    if (this.state.persons.length <= 2) {
+      classStyle.push('red'); // classStyle = ['red'] at this point
+    }
+    if (this.state.persons.length <= 1) {
+      classStyle.push('bold'); // classStyle = ['red', 'bold'] at tjis point 
     }
 
     return (
-      <div className="App">
-        <h1>React App</h1>
-        <h2>Another header</h2>
-        <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
-        {persons}
-      </div>
+      <StyleRoot>
+        <div className="App">
+          <h1>React App</h1>
+          <p className={classStyle.join(' ')}>This is working</p>
+          <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
+          {persons}
+        </div>
+      </StyleRoot>
     );
   }
 }
 
-export default App;
+export default Radium(App);
+// export default App;
